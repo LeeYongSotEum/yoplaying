@@ -1,0 +1,265 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="border">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <section>
+        <h1 class="title">닮은 연예인 테스트</h1>
+        <h2 class="subtitle">인공지능으로 보는 닮은 연예인</h2>
+        <div class="tips">
+            * Tip )<br>
+            1. 선명한 사진을 올리면 정확도가 올라가요 !<br>
+            2. 친구랑 같이 찍은 사진은 Nope ! <br>
+        </div>
+    </section>
+    <section>
+    <div class="file-upload">
+        <div class="image-upload-wrap">
+            <form id="upload-file" method="post" enctype="multipart/form-data">
+                <input class="file-upload-input" name="file" type='file' onchange="readURL(this);" accept="image/*" />
+            </form>
+            <div class="drag-text">
+                <h3>얼굴 사진을 올리거나 클릭하여 사진을 업로드 하기</h3>
+            </div>
+        </div>
+            <div class="file-upload-content">
+                <img class="file-upload-image" id='face-image' src="#" alt="your image" />
+            </div>
+    </div>
+    </section>
+    <div class="loader loader--style2" title="1">
+        <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+        width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+            <path fill="#000" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z">
+                <animateTransform attributeType="xml"
+                attributeName="transform"
+                type="rotate"
+                from="0 25 25"
+                to="360 25 25"
+                dur="0.6s"
+                repeatCount="indefinite"/>
+            </path>
+        </svg>
+        <br>
+        <div>
+            AI가 당신을 분석하고 있어요 !
+        </div>
+    <br>
+    <br>
+    <br>
+    </div>
+    <section>
+        <div class="result_message"></div>
+    </section>
+    <section class="progress-sec">
+    <div>
+        <div class="progress-wrap1 progress" data-progress-percent="0">
+            <div class="progress-bar1 progress"><div class='css-typing1'></div></div>
+        </div>
+
+        <div class="progress-wrap2 progress" data-progress-percent="0">
+            <div class="progress-bar2 progress"><div class='css-typing2'></div></div>
+        </div>
+
+        <div class="progress-wrap3 progress" data-progress-percent="0">
+            <div class="progress-bar3 progress"><div class='css-typing3'></div></div>
+        </div>
+
+        <div class="progress-wrap4 progress" data-progress-percent="0">
+            <div class="progress-bar4 progress"><div class='css-typing4'></div></div>
+        </div>
+
+        <div class="progress-wrap5 progress" data-progress-percent="0">
+            <div class="progress-bar5 progress"><div class='css-typing5'></div></div>
+        </div>
+        <div class="file-upload-content">
+            <br>
+            <br>
+            <div class="addthis_inline_share_toolbox_oh71"></div>
+            <br>
+            <div class="image-title-wrap">
+    <!--                    <button type="button" class="predict_btn" id="predict_btn">예측</button>-->
+                <button type="button" onclick="refresh()" class="remove-image">다른 사진으로 재시도</button>
+            </div>
+        </div>
+    </div>
+    </section>
+    <br>
+    <br>
+    <div class="notice">
+        * Notice)<br>
+        1. 어떠한 사진도 저장이 되지 않습니다 !<br>
+        2. 많은 연예인 분들을 학습시키고 있어요 ~<br>
+        　친구 닮은 연예인은 댓글로 남겨주세요 추가하겠습니다++
+    </div>
+</div>
+
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $('.image-upload-wrap').hide();
+                    $('.file-upload-image').attr('src', e.target.result);
+                    $('.file-upload-content').show();
+                };
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                removeUpload();
+            }
+            $('.loader').show();
+            predict();
+        }
+
+        function refresh() {
+            location.reload(true);
+            location.href = location.href;
+            history.go(0);
+        }
+        $('.image-upload-wrap').bind('dragover', function() {
+            $('.image-upload-wrap').addClass('image-dropping');
+        });
+        $('.image-upload-wrap').bind('dragleave', function() {
+            $('.image-upload-wrap').removeClass('image-dropping');
+        });
+        function rename(result_name) {
+            console.log(result_name)
+            for(var i=0; i<5; i++) {
+                if (result_name[i]=='ChaEunWoo') {result_name[i] = '차은우'}
+                else if (result_name[i]=='ChaSeungWon') {result_name[i] = '차승원'}
+                else if (result_name[i]=='GongYoo') {result_name[i] = '공유'}
+                else if (result_name[i]=='GoSu') {result_name[i] = '고수'}
+                else if (result_name[i]=='HyunBin') {result_name[i] = '현빈'}
+                else if (result_name[i]=='JangDongGun') {result_name[i] = '장동건'}
+                else if (result_name[i]=='JangDongMin') {result_name[i] = '장동민'}
+                else if (result_name[i]=='JungJoonHa') {result_name[i] = '정준하'}
+                else if (result_name[i]=='JungWooSung') {result_name[i] = '정우성'}
+                else if (result_name[i]=='KangDongWon') {result_name[i] = '강동원'}
+                else if (result_name[i]=='KangHoDong') {result_name[i] = '강호동'}
+                else if (result_name[i]=='KimJongKook') {result_name[i] = '김종국'}
+                else if (result_name[i]=='KimYoHan') {result_name[i] = '김요한'}
+                else if (result_name[i]=='LeeByungHun') {result_name[i] = '이병헌'}
+                else if (result_name[i]=='LeeJinHo') {result_name[i] = '이진호'}
+                else if (result_name[i]=='LeeKwangSoo') {result_name[i] = '이광수'}
+                else if (result_name[i]=='NamGungMin') {result_name[i] = '남궁민'}
+                else if (result_name[i]=='ParkMyeongSoo') {result_name[i] = '박명수'}
+                else if (result_name[i]=='ParkSeoJoon') {result_name[i] = '박서준'}
+                else if (result_name[i]=='SeoKangJoon') {result_name[i] = '서강준'}
+                else if (result_name[i]=='SinDongYeop') {result_name[i] = '신동엽'}
+                else if (result_name[i]=='SungSiKyung') {result_name[i] = '성시경'}
+                else if (result_name[i]=='V') {result_name[i] = '뷔'}
+                else if (result_name[i]=='WonBin') {result_name[i] = '원빈'}
+                else if (result_name[i]=='YangSeChan') {result_name[i] = '양세찬'}
+                else if (result_name[i]=='YangSeHyung') {result_name[i] = '양세형'}
+                else if (result_name[i]=='YooJaeSuk') {result_name[i] = '유재석'}
+                else if (result_name[i]=='YooSeYoon') {result_name[i] = '유세윤'}
+                else {return 0}
+            }
+            return result_name
+        };
+
+        function predict() {
+            var form_data = new FormData($('#upload-file')[0]);
+            $.ajax({
+                type: 'POST',
+                url: '/get_data',
+                data: form_data,
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function(resp) {
+                    $('.loader').hide();
+                    result_name = rename(resp.result_name);
+                    console.log(resp.result_name)
+                    console.log(resp.result_count)
+                    var total_sum = resp.result_count[0] + resp.result_count[1] + resp.result_count[2] + resp.result_count[3] +resp.result_count[4];
+                    resp.result_count[0] = Math.round(resp.result_count[0] / total_sum * 100)
+                    resp.result_count[1] = Math.round(resp.result_count[1] / total_sum * 100)
+                    resp.result_count[2] = Math.round(resp.result_count[2] / total_sum * 100)
+                    resp.result_count[3] = Math.round(resp.result_count[3] / total_sum * 100)
+                    resp.result_count[4] = Math.round(resp.result_count[4] / total_sum * 100)
+
+                    console.log(resp.result_count)
+
+                    $('.progress-wrap1').attr('data-progress-percent', resp.result_count[0])
+                    $('.progress-wrap2').attr('data-progress-percent', resp.result_count[1])
+                    $('.progress-wrap3').attr('data-progress-percent', resp.result_count[2])
+                    $('.progress-wrap4').attr('data-progress-percent', resp.result_count[3])
+                    $('.progress-wrap5').attr('data-progress-percent', resp.result_count[4])
+
+                    $('.css-typing1').html(resp.result_name[0] + ' ('+resp.result_count[0] + '%)')
+                    $('.css-typing2').html(resp.result_name[1] + ' ('+resp.result_count[1] + '%)')
+                    $('.css-typing3').html(resp.result_name[2] + ' ('+resp.result_count[2] + '%)')
+                    $('.css-typing4').html(resp.result_name[3] + ' ('+resp.result_count[3] + '%)')
+                    $('.css-typing5').html(resp.result_name[4] + ' ('+resp.result_count[4] + '%)')
+
+                    moveProgressBar();
+                    console.log('Sucess')
+                },
+                error: function() {
+                    $('.loader').hide();
+                    $('.result_message').html('얼굴 전체가 나온 사진이나 정면 사진으로 다시 올려주세요 !')
+                    console.log('Error')
+                }
+            });
+        }
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('.progress-wrap1').hide();
+            $('.progress-wrap2').hide();
+            $('.progress-wrap3').hide();
+            $('.progress-wrap4').hide();
+            $('.progress-wrap5').hide();
+        });
+        function moveProgressBar() {
+            $('.progress-wrap1').show();
+            $('.progress-wrap2').show();
+            $('.progress-wrap3').show();
+            $('.progress-wrap4').show();
+            $('.progress-wrap5').show();
+
+            console.log("moveProgressBar");
+            var getPercent1 = ($('.progress-wrap1').data('progress-percent')/ 100);
+            var getPercent2 = ($('.progress-wrap2').data('progress-percent')/ 100);
+            var getPercent3 = ($('.progress-wrap3').data('progress-percent')/ 100);
+            var getPercent4 = ($('.progress-wrap4').data('progress-percent')/ 100);
+            var getPercent5 = ($('.progress-wrap5').data('progress-percent')/ 100);
+
+            var getProgressWrapWidth1 = $('.progress-wrap1').width();
+            var getProgressWrapWidth2 = $('.progress-wrap2').width();
+            var getProgressWrapWidth3 = $('.progress-wrap3').width();
+            var getProgressWrapWidth4 = $('.progress-wrap4').width();
+            var getProgressWrapWidth5 = $('.progress-wrap5').width();
+
+            var progressTotal1 = getPercent1 * getProgressWrapWidth1;
+            var progressTotal2 = getPercent2 * getProgressWrapWidth2;
+            var progressTotal3 = getPercent3 * getProgressWrapWidth3;
+            var progressTotal4 = getPercent4 * getProgressWrapWidth4;
+            var progressTotal5 = getPercent5 * getProgressWrapWidth5;
+
+            var animationLength = 2500;
+
+            $('.progress-bar1').stop().animate({
+                left: progressTotal1
+            }, animationLength);
+
+            $('.progress-bar2').stop().animate({
+                left: progressTotal2
+            }, animationLength);
+
+            $('.progress-bar3').stop().animate({
+                left: progressTotal3
+            }, animationLength);
+
+            $('.progress-bar4').stop().animate({
+                left: progressTotal4
+            }, animationLength);
+
+            $('.progress-bar5').stop().animate({
+                left: progressTotal5
+            }, animationLength);
+        }
+    </script>
+{% endblock %}
