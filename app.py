@@ -13,10 +13,6 @@ facerec = dlib.face_recognition_model_v1('models/dlib_face_recognition_resnet_mo
 descs = np.load('image/descs.npy', allow_pickle=True).item()
 
 
-
-
-
-
 app = Flask(__name__)
 # freezer = Freezer(app)
 
