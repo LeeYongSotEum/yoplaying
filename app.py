@@ -36,17 +36,6 @@ posts = [
 ]
 
 
-
-
-
-
-
-
-
-
-
-
-
 def find_faces(img):
     dets = detector(img, 1)
 
