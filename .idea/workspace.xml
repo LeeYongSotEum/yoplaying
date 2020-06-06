@@ -177,10 +177,10 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.Face_Detector_ver3" />
-      <item itemvalue="Python.MyLotto" />
       <item itemvalue="Python.Unnamed" />
       <item itemvalue="Python.app" />
+      <item itemvalue="Python.Face_Detector_ver3" />
+      <item itemvalue="Python.MyLotto" />
       <item itemvalue="Python.freeze" />
       <item itemvalue="Python.setup" />
     </list>
